@@ -13,11 +13,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Docker Buildx (for compose build)
-        uses: docker/setup-buildx-action@v3
-
-      - name: Build & start environment
-        run: docker compose up --build -d
+      - name: Start environment using prebuilt image
+        run: docker compose up -d
 
       - name: Wait for WordPress to be ready
         run: |
