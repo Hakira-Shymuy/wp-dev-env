@@ -1,0 +1,39 @@
+name: Test wp-dev-env
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx (for compose build)
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build & start environment
+        run: docker compose up --build -d
+
+      - name: Wait for WordPress to be ready
+        run: |
+          max_attempts=10
+          attempt=1
+          until docker compose exec php wp core is-installed --allow-root; do
+            if [ $attempt -eq $max_attempts ]; then
+              echo "Waiting for WordPress."
+              exit 1
+            fi
+            echo "WP not ready yet (attempt $attempt)..."
+            attempt=$((attempt + 1))
+            sleep 5
+          done
+          echo "WordPress is ready!"
+
+      - name: Stop environment
+        if: always()
+        run: docker compose down -v --remove-orphans
