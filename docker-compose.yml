@@ -1,0 +1,49 @@
+services:
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: wp-php
+    restart: unless-stopped
+    volumes:
+      - wordpress:/var/www/html
+      - ./start.sh:/start.sh
+      - ./wp-config/wp-config.php:/var/www/html/wp-config.php
+    working_dir: /var/www/html
+    depends_on:
+      - database
+    environment:
+      WORDPRESS_DB_HOST: database
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+    entrypoint: ["/bin/sh", "/start.sh"]
+
+
+  nginx:
+    image: nginx:alpine3.20
+    container_name: wp-nginx
+    ports:
+      - 8080:80
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - wordpress:/var/www/html
+    depends_on:
+      - php
+
+  database:
+    image: mariadb:lts
+    container_name: wp-database
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+    volumes:
+      - wp_data:/var/lib/mysql
+
+volumes:
+  wp_data:
+  wordpress:
+
