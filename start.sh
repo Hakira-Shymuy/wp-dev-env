@@ -3,7 +3,7 @@ set -e
 
 echo "Starting WordPress setup..."
 
-Install WP-CLI
+# Install WP-CLI
 if [ ! -f /usr/local/bin/wp ]; then
   echo "Installing WP-CLI..."
   curl -sL https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -o /usr/local/bin/wp
@@ -11,7 +11,7 @@ if [ ! -f /usr/local/bin/wp ]; then
   echo "Installed WP-CLI version: $(/usr/local/bin/wp --version --allow-root)"
 fi
 
-Clone WordPress
+# Clone WordPress
 cd /var/www/html
 if [ ! -f wp-load.php ]; then
   echo "Pulling WordPress from GitHub..."
