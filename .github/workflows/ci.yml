@@ -2,7 +2,7 @@ name: Test wp-dev-env
 
 on:
   push:
-    branches: [disabled]
+    branches: [main]
   pull_request:
 
 jobs:

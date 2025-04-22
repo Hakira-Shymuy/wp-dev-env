@@ -4,22 +4,22 @@ set -e
 echo "Starting WordPress setup..."
 
 # Install WP-CLI
-if [ ! -f /usr/local/bin/wp ]; then
-  echo "Installing WP-CLI..."
-  curl -sL https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -o /usr/local/bin/wp
-  chmod +x /usr/local/bin/wp
-  echo "Installed WP-CLI version: $(/usr/local/bin/wp --version --allow-root)"
-fi
+# if [ ! -f /usr/local/bin/wp ]; then
+#   echo "Installing WP-CLI..."
+#   curl -sL https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -o /usr/local/bin/wp
+#   chmod +x /usr/local/bin/wp
+#   echo "Installed WP-CLI version: $(/usr/local/bin/wp --version --allow-root)"
+# fi
 
 # Clone WordPress
-cd /var/www/html
-if [ ! -f wp-load.php ]; then
-  echo "Pulling WordPress from GitHub..."
-  TMP_DIR=$(mktemp -d)
-  git clone --depth=1 --branch 6.8 https://github.com/WordPress/WordPress.git "$TMP_DIR"
-  cp -rT "$TMP_DIR" .
-  rm -rf "$TMP_DIR"
-fi
+# cd /var/www/html
+# if [ ! -f wp-load.php ]; then
+#   echo "Pulling WordPress from GitHub..."
+#   TMP_DIR=$(mktemp -d)
+#   git clone --depth=1 --branch 6.8 https://github.com/WordPress/WordPress.git "$TMP_DIR"
+#   cp -rT "$TMP_DIR" .
+#   rm -rf "$TMP_DIR"
+# fi
 
 # Wait for MySQL
 echo "Waiting for MySQL on host '$WORDPRESS_DB_HOST'..."
