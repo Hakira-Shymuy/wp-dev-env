@@ -1,6 +1,6 @@
 services:
   php:
-    image: ghcr.io/composewp/php-for-wp-ci:8.2-dev
+    image: ghcr.io/composewp/php-for-wp-ci:wp-8.2-slim-v0.1-dev
     container_name: wp-php
     restart: unless-stopped
     volumes:
